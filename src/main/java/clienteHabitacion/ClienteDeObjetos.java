@@ -18,7 +18,7 @@ public class ClienteDeObjetos
         public static void MenuPrincipal() throws RemoteException
         {
             String nombres, apellidos, tipo_id, direccion;
-            int opcion, id;
+            int opcion, id, frecuenciaCardiaca, frecuenciaRespiratoria;
             float temperatura;
             boolean registroAsintomaticoCllbck, notificoIndicador;
             ClsAsintomaticoDTO pacienteAsintomatico;
@@ -84,9 +84,13 @@ public class ClienteDeObjetos
                     case 3:
                             System.out.print("Digite id del paciente asintomatico a enviar indicador: ");
                             id = UtilidadesConsola.leerEntero();
+                            System.out.print("Digite la frecuencia cardiaca del paciente asintomatico: ");
+                            frecuenciaCardiaca = UtilidadesConsola.leerEntero();
+                            System.out.print("Digite la frecuencia respiratoria del paciente asintomatico: ");
+                            frecuenciaRespiratoria = UtilidadesConsola.leerEntero();
                             System.out.print("Digite la temperatura del paciente asintomatico: ");
                             temperatura = UtilidadesConsola.leerFlotante();
-                            notificoIndicador = objetoRemotoServidorAlertas.enviarIndicadores(id,temperatura);
+                            notificoIndicador = objetoRemotoServidorAlertas.enviarIndicadores(id,frecuenciaCardiaca,frecuenciaRespiratoria,temperatura);
                             if(notificoIndicador)
                                 System.out.println("Se notifico indicador de paciente asintomatico exitosamente!!!");
                             else System.out.println("Error al notificar indicador de paciente asintomatico!!!");

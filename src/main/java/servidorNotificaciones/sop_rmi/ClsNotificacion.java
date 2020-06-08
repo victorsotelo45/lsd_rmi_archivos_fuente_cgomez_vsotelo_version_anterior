@@ -19,9 +19,8 @@ public class ClsNotificacion extends UnicastRemoteObject implements Notificacion
     @Override
     public void notificarRegistro(ClsMensajeNotificacionDTO objNotificacion) throws RemoteException {
         
-        int id = objNotificacion.getId();
-        float temperatura = objNotificacion.getToC();
-        System.out.println("El paciente con identificación ["+id+"] presenta una T C de ["+temperatura+"]\n" +"la cual esta fuera del rango normal");
+        
+        System.out.println(objNotificacion.getMensaje());
         
     }
    

@@ -26,10 +26,9 @@ public class AsintomaticoCllbckImpl extends UnicastRemoteObject implements Asint
     }
     
     @Override
-    public void notificar(int id, float ToC) throws RemoteException {
+    public void notificar(String mensaje) throws RemoteException {
         
-        String mensaje = "El paciente identificado con id ["+id+"] presenta una Temperatura de ["+ToC+"] grados C la cual está fuera del rango normal";
-        System.out.println("Mensaje enviado del servidor: "+mensaje); 
+        System.out.println("Mensaje enviado del servidor de alertas: "+mensaje); 
     }
 
 }

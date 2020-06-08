@@ -63,19 +63,20 @@ public class ClsGestionAsintomaticos extends UnicastRemoteObject implements Gest
     public boolean enviarIndicadores(int id, int frecuenciaCardiaca, int frecuenciaRespiratoria,float temperatura) throws RemoteException {
             
         System.out.println("Desde enviarIndicadores()...");
-        String nombres, apellidos, tipo_id;
+        String nombres, apellidos, tipo_id, mensaje;
         boolean bandera = false;
         int puntuacion = 0;
         ClsMensajeNotificacionDTO objMensajeNotificacion;
-        //ClsAsintomaticoDTO pacienteAsintomatico;
+        ClsAsintomaticoDTO pacienteAsintomatico;
         AsintomaticoCllbckInt objAsintomaticoCllbck = existeAsintomatico(id);
         if(objAsintomaticoCllbck != null)
         {
             if(frecuenciaCardiaca < 60 || frecuenciaCardiaca > 80) puntuacion++;
             if(frecuenciaRespiratoria < 70 || frecuenciaRespiratoria > 90) puntuacion++;
             if(temperatura < 36.2 || temperatura > 37.2) puntuacion++;
+            
+            //pacienteAsintomatico = objAsintomaticoCllbck.getPacienteAsintomatico();
             /*
-            pacienteAsintomatico = objAsintomaticoCllbck.getPacienteAsintomatico();
             nombres = pacienteAsintomatico.getNombres();
             apellidos = pacienteAsintomatico.getApellidos();
             tipo_id = pacienteAsintomatico.getTipo_id();
@@ -84,32 +85,23 @@ public class ClsGestionAsintomaticos extends UnicastRemoteObject implements Gest
             if(puntuacion == 0 || puntuacion == 1)
             {
                 System.out.println("El paciente debe continuar monitorizacion!!!");
-                //System.out.println("El paciente "+nombres+" "+apellidos+" con identificación ["+tipo_id+"]["+id+"] presenta una T C de ["+ToC+"]\n" +"la cual esta dentro del rango normal");
                 
             }
             
             if(puntuacion == 2)
             {
-                System.out.println("El paciente debe continuar monitorizacion!!!");
-                //System.out.println("El paciente "+nombres+" "+apellidos+" con identificación ["+tipo_id+"]["+id+"] presenta una T C de ["+ToC+"]\n" +"la cual esta dentro del rango normal");
-                objAsintomaticoCllbck.notificar(id, temperatura);
+                mensaje = "Alerta, el personal médico debe visitar al paciente!!!";
+                objAsintomaticoCllbck.notificar(mensaje);
             }
             
             if(puntuacion >=3)
             {
-                System.out.println("El paciente debe continuar monitorizacion!!!");
-                //System.out.println("El paciente "+nombres+" "+apellidos+" con identificación ["+tipo_id+"]["+id+"] presenta una T C de ["+ToC+"]\n" +"la cual esta dentro del rango normal");
-                objAsintomaticoCllbck.notificar(id, temperatura);
-            }
-            
-            
-            else
-            {
-                objAsintomaticoCllbck.notificar(id, temperatura);
-                objMensajeNotificacion = new ClsMensajeNotificacionDTO(id, temperatura);
+                mensaje = "Alerta, el personal médico debe remitir el paciente al hospital!!!";
+                objAsintomaticoCllbck.notificar(mensaje);
+                objMensajeNotificacion = new ClsMensajeNotificacionDTO(mensaje);
                 objetoRemotoServidorNotificaciones.notificarRegistro(objMensajeNotificacion);
-            
-            }   
+            }
+               
             bandera = true;
         }else System.out.println("El id del paciente asintomatico no existe!!!");
         
