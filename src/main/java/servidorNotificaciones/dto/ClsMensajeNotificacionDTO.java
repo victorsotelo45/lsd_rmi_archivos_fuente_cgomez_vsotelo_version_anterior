@@ -15,6 +15,7 @@ public class ClsMensajeNotificacionDTO implements Serializable
 		this.id = id;
 		this.ToC = ToC;
             */       
+            this.mensaje = mensaje;
 	}
 	/*
 	public int getId(){return this.id;}
