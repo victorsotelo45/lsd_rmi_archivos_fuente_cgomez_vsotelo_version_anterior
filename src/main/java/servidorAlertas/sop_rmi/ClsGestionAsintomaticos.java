@@ -75,28 +75,28 @@ public class ClsGestionAsintomaticos extends UnicastRemoteObject implements Gest
             if(frecuenciaRespiratoria < 70 || frecuenciaRespiratoria > 90) puntuacion++;
             if(temperatura < 36.2 || temperatura > 37.2) puntuacion++;
             
-            //pacienteAsintomatico = objAsintomaticoCllbck.getPacienteAsintomatico();
-            /*
+            pacienteAsintomatico = objAsintomaticoCllbck.getPacienteAsintomatico();
+            
             nombres = pacienteAsintomatico.getNombres();
             apellidos = pacienteAsintomatico.getApellidos();
             tipo_id = pacienteAsintomatico.getTipo_id();
-            */    
+            
             
             if(puntuacion == 0 || puntuacion == 1)
             {
-                System.out.println("El paciente debe continuar monitorizacion!!!");
+                System.out.println("El paciente "+nombres+" "+apellidos+" identificado con ["+tipo_id+"]["+id+"] debe continuar monitorizacion!!!");
                 
             }
             
             if(puntuacion == 2)
             {
-                mensaje = "Alerta, el personal médico debe visitar al paciente!!!";
+                mensaje = "Alerta, el personal médico debe visitar al paciente "+nombres+" "+apellidos+" identificado con ["+tipo_id+"]["+id+"]!!!";
                 objAsintomaticoCllbck.notificar(mensaje);
             }
             
-            if(puntuacion >=3)
+            if(puntuacion >= 3)
             {
-                mensaje = "Alerta, el personal médico debe remitir el paciente al hospital!!!";
+                mensaje = "Alerta, el personal médico debe remitir el paciente "+nombres+" "+apellidos+" identificado con ["+tipo_id+"]["+id+"] al hospital!!!";
                 objAsintomaticoCllbck.notificar(mensaje);
                 objMensajeNotificacion = new ClsMensajeNotificacionDTO(mensaje);
                 objetoRemotoServidorNotificaciones.notificarRegistro(objMensajeNotificacion);
