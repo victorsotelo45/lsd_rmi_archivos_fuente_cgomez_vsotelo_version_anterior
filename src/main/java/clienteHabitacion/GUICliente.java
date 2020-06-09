@@ -23,7 +23,7 @@ import servidorAlertas.sop_rmi.GestionAsintomaticosInt;
  *
  * @author VICTOR MANUEL
  */
-public class GUICliente extends javax.swing.JFrame {
+public class GUICliente extends javax.swing.JFrame implements Runnable{
 
     private static GestionAsintomaticosInt objetoRemotoServidorAlertas;
     CardLayout cardLayout;
@@ -424,33 +424,8 @@ public class GUICliente extends javax.swing.JFrame {
 
     private void jButtonEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnviarActionPerformed
         // TODO add your handling code here:
-        try {
-
-            while (true) {
-                //hacemos un ciclo infinito
-                try {
-                    float ToC = (float) (Math.random() * 7 + 35);
-                    int fCardiaca = (int) (Math.random() * 31 + 55);
-                    int fRespiratoria = (int) (Math.random() * 31 + 65);
-                    boolean bandera = objetoRemotoServidorAlertas.enviarIndicadores(Integer.parseInt(jTextFieldIdIndicador.getText()), fCardiaca, fRespiratoria, ToC);
-                    jTextAreaIndicadores.append("Enviando indicadores...");
-                    jTextAreaIndicadores.append("Frecuencia cardiaca: " + fCardiaca);
-                    jTextAreaIndicadores.append("Frecuencia respiratoria: " + fRespiratoria);
-                    jTextAreaIndicadores.append("Temperatura " + ToC + " C.");
-                    if (!bandera) {
-                        JOptionPane.showMessageDialog(null, "Alerta generada", "Alerta", JOptionPane.WARNING_MESSAGE);
-                    }
-                    Thread.sleep(8000);
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        } catch (RemoteException e) {
-            System.out.println("La operacion no se pudo completar, intente nuevamente...");
-            System.out.println("Excepcion generada: " + e.getMessage());
-        }
+        Thread enviarIndicadores = new Thread(this);
+        enviarIndicadores.start();
     }//GEN-LAST:event_jButtonEnviarActionPerformed
 
     /**
@@ -519,5 +494,36 @@ public class GUICliente extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldIdIndicador;
     private javax.swing.JTextField jTextFieldNombre;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void run() {
+        try {
+
+            while (true) {
+                //hacemos un ciclo infinito
+                try {
+                    float ToC = (float) (Math.random() * 7 + 35);
+                    int fCardiaca = (int) (Math.random() * 31 + 55);
+                    int fRespiratoria = (int) (Math.random() * 31 + 65);
+                    boolean bandera = objetoRemotoServidorAlertas.enviarIndicadores(Integer.parseInt(jTextFieldIdIndicador.getText()), fCardiaca, fRespiratoria, ToC);
+                    jTextAreaIndicadores.append("Enviando indicadores...\n");
+                    jTextAreaIndicadores.append("Frecuencia cardiaca: " + fCardiaca+"\n");
+                    jTextAreaIndicadores.append("Frecuencia respiratoria: " + fRespiratoria+"\n");
+                    jTextAreaIndicadores.append("Temperatura " + ToC + " C.\n");
+                    if (!bandera) {
+                        jTextAreaIndicadores.append("Alerta generada");
+                    }
+                    Thread.sleep(8000);
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } catch (RemoteException e) {
+            System.out.println("La operacion no se pudo completar, intente nuevamente...");
+            System.out.println("Excepcion generada: " + e.getMessage());
+        }
+    }
 
 }
