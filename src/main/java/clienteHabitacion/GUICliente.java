@@ -9,7 +9,7 @@ package clienteHabitacion;
 import clienteHabitacion.sop_rmi.AsintomaticoCllbckImpl;
 import clienteHabitacion.utilidades.UtilidadesConsola;
 import clienteHabitacion.utilidades.UtilidadesRegistroC;
-import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -26,11 +26,13 @@ import servidorAlertas.sop_rmi.GestionAsintomaticosInt;
 public class GUICliente extends javax.swing.JFrame {
 
     private static GestionAsintomaticosInt objetoRemotoServidorAlertas;
+    CardLayout cardLayout;
     /** Creates new form GUICliente */
     public GUICliente() {
         initComponents();
+        cardLayout = (CardLayout) (jPanelCardLayout.getLayout());
     }
-
+    
     public void limpiarPanelRegistrar(){
         buttonGroupTipo.clearSelection();
         jTextFieldId.setText("");
@@ -52,6 +54,7 @@ public class GUICliente extends javax.swing.JFrame {
         jButtonRegistrar = new javax.swing.JButton();
         jButtonConsultar = new javax.swing.JButton();
         jButtonEnviarIndicadores = new javax.swing.JButton();
+        jPanelCardLayout = new javax.swing.JPanel();
         jPanelRegistrar = new javax.swing.JPanel();
         jLabelTipoId = new javax.swing.JLabel();
         jLabelId = new javax.swing.JLabel();
@@ -67,6 +70,18 @@ public class GUICliente extends javax.swing.JFrame {
         jTextFieldApellido = new javax.swing.JTextField();
         jTextFieldDireccion = new javax.swing.JTextField();
         jTextFieldId = new javax.swing.JTextField();
+        jPanelConsultar = new javax.swing.JPanel();
+        jTextFieldIdConsulta = new javax.swing.JTextField();
+        jLabelIdConsulta = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextAreaConsultas = new javax.swing.JTextArea();
+        jButtonBuscar = new javax.swing.JButton();
+        jPanelIndicadores = new javax.swing.JPanel();
+        jTextFieldIdIndicador = new javax.swing.JTextField();
+        jLabelIdIndicador = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextAreaIndicadores = new javax.swing.JTextArea();
+        jButtonEnviar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -116,8 +131,10 @@ public class GUICliente extends javax.swing.JFrame {
                 .addComponent(jButtonConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonEnviarIndicadores, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanelCardLayout.setLayout(new java.awt.CardLayout());
 
         jPanelRegistrar.setName(""); // NOI18N
 
@@ -207,12 +224,105 @@ public class GUICliente extends javax.swing.JFrame {
                 .addGroup(jPanelRegistrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelDireccion)
                     .addComponent(jTextFieldDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                 .addGroup(jPanelRegistrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonRegistrarPaciente)
                     .addComponent(jButtonSalir))
                 .addGap(25, 25, 25))
         );
+
+        jPanelCardLayout.add(jPanelRegistrar, "cardRegistrar");
+
+        jLabelIdConsulta.setText("Numero de identificacion");
+
+        jTextAreaConsultas.setColumns(20);
+        jTextAreaConsultas.setRows(5);
+        jScrollPane1.setViewportView(jTextAreaConsultas);
+
+        jButtonBuscar.setText("Buscar");
+        jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBuscarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelConsultarLayout = new javax.swing.GroupLayout(jPanelConsultar);
+        jPanelConsultar.setLayout(jPanelConsultarLayout);
+        jPanelConsultarLayout.setHorizontalGroup(
+            jPanelConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelConsultarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(jPanelConsultarLayout.createSequentialGroup()
+                        .addComponent(jLabelIdConsulta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldIdConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonBuscar)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanelConsultarLayout.setVerticalGroup(
+            jPanelConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelConsultarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelIdConsulta)
+                    .addComponent(jTextFieldIdConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonBuscar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanelCardLayout.add(jPanelConsultar, "cardConsultar");
+
+        jLabelIdIndicador.setText("Numero de identificacion");
+
+        jTextAreaIndicadores.setColumns(20);
+        jTextAreaIndicadores.setRows(5);
+        jScrollPane2.setViewportView(jTextAreaIndicadores);
+
+        jButtonEnviar.setText("Enviar");
+        jButtonEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEnviarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelIndicadoresLayout = new javax.swing.GroupLayout(jPanelIndicadores);
+        jPanelIndicadores.setLayout(jPanelIndicadoresLayout);
+        jPanelIndicadoresLayout.setHorizontalGroup(
+            jPanelIndicadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelIndicadoresLayout.createSequentialGroup()
+                .addGroup(jPanelIndicadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelIndicadoresLayout.createSequentialGroup()
+                        .addGap(64, 64, 64)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelIndicadoresLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabelIdIndicador)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextFieldIdIndicador, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonEnviar)))
+                .addContainerGap(38, Short.MAX_VALUE))
+        );
+        jPanelIndicadoresLayout.setVerticalGroup(
+            jPanelIndicadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelIndicadoresLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(jPanelIndicadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldIdIndicador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelIdIndicador)
+                    .addComponent(jButtonEnviar))
+                .addGap(43, 43, 43)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                .addGap(58, 58, 58))
+        );
+
+        jPanelCardLayout.add(jPanelIndicadores, "cardIndicadores");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -221,23 +331,24 @@ public class GUICliente extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(381, Short.MAX_VALUE))
+                .addContainerGap(526, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addGap(0, 170, Short.MAX_VALUE)
-                    .addComponent(jPanelRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(169, 169, 169)
+                    .addComponent(jPanelCardLayout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(35, 35, 35)
                 .addComponent(jPanelMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(106, 106, 106))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jPanelRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jPanelCardLayout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(71, Short.MAX_VALUE)))
         );
 
         pack();
@@ -248,17 +359,18 @@ public class GUICliente extends javax.swing.JFrame {
         //jPanelRegistrar.setSize(400,300);
         //jPanelRegistrar.setLocation(5,5);
         //jPanelMenu.setVisible(false);
-        jPanelRegistrar.setVisible(true);
+        cardLayout.show(jPanelCardLayout, "cardRegistrar");
     }//GEN-LAST:event_jButtonRegistrarActionPerformed
 
     private void jButtonConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarActionPerformed
         // TODO add your handling code here:
-       
+       cardLayout.show(jPanelCardLayout, "cardConsultar");
     }//GEN-LAST:event_jButtonConsultarActionPerformed
 
     private void jButtonEnviarIndicadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnviarIndicadoresActionPerformed
         // TODO add your handling code here:
-        
+        cardLayout.show(jPanelCardLayout, "cardIndicadores");
+       
     }//GEN-LAST:event_jButtonEnviarIndicadoresActionPerformed
 
     private void jButtonRegistrarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistrarPacienteActionPerformed
@@ -287,6 +399,59 @@ public class GUICliente extends javax.swing.JFrame {
         }    
 
     }//GEN-LAST:event_jButtonRegistrarPacienteActionPerformed
+
+    private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
+        try {
+            // TODO add your handling code here:
+            ClsAsintomaticoDTO pacienteAsintomatico = objetoRemotoServidorAlertas.consultarAsintomatico(Integer.parseInt(jTextFieldIdConsulta.getText()) );
+            if(pacienteAsintomatico != null)
+            {
+                jTextAreaConsultas.append("Datos del paciente asintomatico\n");
+                jTextAreaConsultas.append("Nombres: "+pacienteAsintomatico.getNombres()+"\n");
+                jTextAreaConsultas.append("Apellidos: "+pacienteAsintomatico.getApellidos()+"\n");
+                jTextAreaConsultas.append("Tipo de Id: "+pacienteAsintomatico.getTipo_id()+"\n");
+                jTextAreaConsultas.append("Id: "+pacienteAsintomatico.getId()+"\n");
+                jTextAreaConsultas.append("Direccion: "+pacienteAsintomatico.getDireccion()+"\n");
+                jTextAreaConsultas.append("Datos del paciente asintomatico consultados exitosamente!!!\n");
+            }else
+            {
+                JOptionPane.showMessageDialog(null,"No se consulto paciente asintomatico (error de consulta o el paciente no existe!!!)");
+            }
+        } catch (RemoteException ex) {
+            Logger.getLogger(GUICliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonBuscarActionPerformed
+
+    private void jButtonEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnviarActionPerformed
+        // TODO add your handling code here:
+        try {
+
+            while (true) {
+                //hacemos un ciclo infinito
+                try {
+                    float ToC = (float) (Math.random() * 7 + 35);
+                    int fCardiaca = (int) (Math.random() * 31 + 55);
+                    int fRespiratoria = (int) (Math.random() * 31 + 65);
+                    boolean bandera = objetoRemotoServidorAlertas.enviarIndicadores(Integer.parseInt(jTextFieldIdIndicador.getText()), fCardiaca, fRespiratoria, ToC);
+                    jTextAreaIndicadores.append("Enviando indicadores...");
+                    jTextAreaIndicadores.append("Frecuencia cardiaca: " + fCardiaca);
+                    jTextAreaIndicadores.append("Frecuencia respiratoria: " + fRespiratoria);
+                    jTextAreaIndicadores.append("Temperatura " + ToC + " C.");
+                    if (!bandera) {
+                        JOptionPane.showMessageDialog(null, "Alerta generada", "Alerta", JOptionPane.WARNING_MESSAGE);
+                    }
+                    Thread.sleep(8000);
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } catch (RemoteException e) {
+            System.out.println("La operacion no se pudo completar, intente nuevamente...");
+            System.out.println("Excepcion generada: " + e.getMessage());
+        }
+    }//GEN-LAST:event_jButtonEnviarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -321,7 +486,9 @@ public class GUICliente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupTipo;
+    private javax.swing.JButton jButtonBuscar;
     private javax.swing.JButton jButtonConsultar;
+    private javax.swing.JButton jButtonEnviar;
     private javax.swing.JButton jButtonEnviarIndicadores;
     private javax.swing.JButton jButtonRegistrar;
     private javax.swing.JButton jButtonRegistrarPaciente;
@@ -329,16 +496,27 @@ public class GUICliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelApellido;
     private javax.swing.JLabel jLabelDireccion;
     private javax.swing.JLabel jLabelId;
+    private javax.swing.JLabel jLabelIdConsulta;
+    private javax.swing.JLabel jLabelIdIndicador;
     private javax.swing.JLabel jLabelNombre;
     private javax.swing.JLabel jLabelTipoId;
+    private javax.swing.JPanel jPanelCardLayout;
+    private javax.swing.JPanel jPanelConsultar;
+    private javax.swing.JPanel jPanelIndicadores;
     private javax.swing.JPanel jPanelMenu;
     private javax.swing.JPanel jPanelRegistrar;
     private javax.swing.JRadioButton jRadioButtonCC;
     private javax.swing.JRadioButton jRadioButtonPP;
     private javax.swing.JRadioButton jRadioButtonTI;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextAreaConsultas;
+    private javax.swing.JTextArea jTextAreaIndicadores;
     private javax.swing.JTextField jTextFieldApellido;
     private javax.swing.JTextField jTextFieldDireccion;
     private javax.swing.JTextField jTextFieldId;
+    private javax.swing.JTextField jTextFieldIdConsulta;
+    private javax.swing.JTextField jTextFieldIdIndicador;
     private javax.swing.JTextField jTextFieldNombre;
     // End of variables declaration//GEN-END:variables
 
