@@ -10,12 +10,18 @@ import clienteHabitacion.sop_rmi.AsintomaticoCllbckImpl;
 import clienteHabitacion.utilidades.UtilidadesConsola;
 import clienteHabitacion.utilidades.UtilidadesRegistroC;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextPane;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
 import servidorAlertas.dto.ClsAsintomaticoDTO;
 import servidorAlertas.sop_rmi.GestionAsintomaticosInt;
 
@@ -39,6 +45,9 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
         jTextFieldNombre.setText("");
         jTextFieldApellido.setText("");
         jTextFieldDireccion.setText("");
+    }
+    public void fijarAlerta(String mensaje){
+        appendToPane(jTextPaneArea, mensaje+"\n", Color.red);
     }
     /** This method is called from within the constructor to
      * initialize the form.
@@ -79,9 +88,9 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
         jPanelIndicadores = new javax.swing.JPanel();
         jTextFieldIdIndicador = new javax.swing.JTextField();
         jLabelIdIndicador = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextAreaIndicadores = new javax.swing.JTextArea();
         jButtonEnviar = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextPaneArea = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -224,7 +233,7 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
                 .addGroup(jPanelRegistrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelDireccion)
                     .addComponent(jTextFieldDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
                 .addGroup(jPanelRegistrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonRegistrarPaciente)
                     .addComponent(jButtonSalir))
@@ -272,17 +281,13 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
                     .addComponent(jTextFieldIdConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanelCardLayout.add(jPanelConsultar, "cardConsultar");
 
         jLabelIdIndicador.setText("Numero de identificacion");
-
-        jTextAreaIndicadores.setColumns(20);
-        jTextAreaIndicadores.setRows(5);
-        jScrollPane2.setViewportView(jTextAreaIndicadores);
 
         jButtonEnviar.setText("Enviar");
         jButtonEnviar.addActionListener(new java.awt.event.ActionListener() {
@@ -291,23 +296,24 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
             }
         });
 
+        jScrollPane3.setViewportView(jTextPaneArea);
+
         javax.swing.GroupLayout jPanelIndicadoresLayout = new javax.swing.GroupLayout(jPanelIndicadores);
         jPanelIndicadores.setLayout(jPanelIndicadoresLayout);
         jPanelIndicadoresLayout.setHorizontalGroup(
             jPanelIndicadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelIndicadoresLayout.createSequentialGroup()
-                .addGroup(jPanelIndicadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelIndicadoresLayout.createSequentialGroup()
-                        .addGap(64, 64, 64)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelIndicadoresLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabelIdIndicador)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextFieldIdIndicador, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonEnviar)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jLabelIdIndicador)
+                .addGap(18, 18, 18)
+                .addComponent(jTextFieldIdIndicador, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonEnviar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelIndicadoresLayout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanelIndicadoresLayout.setVerticalGroup(
             jPanelIndicadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -317,9 +323,9 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
                     .addComponent(jTextFieldIdIndicador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelIdIndicador)
                     .addComponent(jButtonEnviar))
-                .addGap(43, 43, 43)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
-                .addGap(58, 58, 58))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanelCardLayout.add(jPanelIndicadores, "cardIndicadores");
@@ -348,7 +354,7 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jPanelCardLayout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(71, Short.MAX_VALUE)))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();
@@ -387,7 +393,7 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
         AsintomaticoCllbckImpl asintomatico;
       
         try {
-            asintomatico = new AsintomaticoCllbckImpl(paciente);
+            asintomatico = new AsintomaticoCllbckImpl(paciente,this);
             if(objetoRemotoServidorAlertas.registrarAsintomatico(asintomatico) ){
                 JOptionPane.showMessageDialog(null, "Paciente registrado");
                 limpiarPanelRegistrar();
@@ -484,15 +490,15 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
     private javax.swing.JRadioButton jRadioButtonPP;
     private javax.swing.JRadioButton jRadioButtonTI;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextAreaConsultas;
-    private javax.swing.JTextArea jTextAreaIndicadores;
     private javax.swing.JTextField jTextFieldApellido;
     private javax.swing.JTextField jTextFieldDireccion;
     private javax.swing.JTextField jTextFieldId;
     private javax.swing.JTextField jTextFieldIdConsulta;
     private javax.swing.JTextField jTextFieldIdIndicador;
     private javax.swing.JTextField jTextFieldNombre;
+    private javax.swing.JTextPane jTextPaneArea;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -505,14 +511,13 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
                     float ToC = (float) (Math.random() * 7 + 35);
                     int fCardiaca = (int) (Math.random() * 31 + 55);
                     int fRespiratoria = (int) (Math.random() * 31 + 65);
-                    boolean bandera = objetoRemotoServidorAlertas.enviarIndicadores(Integer.parseInt(jTextFieldIdIndicador.getText()), fCardiaca, fRespiratoria, ToC);
-                    jTextAreaIndicadores.append("Enviando indicadores...\n");
-                    jTextAreaIndicadores.append("Frecuencia cardiaca: " + fCardiaca+"\n");
-                    jTextAreaIndicadores.append("Frecuencia respiratoria: " + fRespiratoria+"\n");
-                    jTextAreaIndicadores.append("Temperatura " + ToC + " C.\n");
-                    if (!bandera) {
-                        jTextAreaIndicadores.append("Alerta generada");
-                    }
+                    appendToPane(jTextPaneArea, "\nEnviando indicadores...\n", Color.blue);
+                    appendToPane(jTextPaneArea, "Frecuencia cardiaca: " + fCardiaca+"\n", Color.black);
+                    appendToPane(jTextPaneArea, "Frecuencia respiratoria: " + fRespiratoria+"\n", Color.black);
+                    appendToPane(jTextPaneArea, "Temperatura " + ToC + " C.\n", Color.black);
+                    objetoRemotoServidorAlertas.enviarIndicadores(Integer.parseInt(jTextFieldIdIndicador.getText()), fCardiaca, fRespiratoria, ToC);
+
+                    
                     Thread.sleep(8000);
 
                 } catch (InterruptedException e) {
@@ -525,5 +530,19 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
             System.out.println("Excepcion generada: " + e.getMessage());
         }
     }
+    private void appendToPane(JTextPane tp, String msg, Color c)
+    {
+        StyleContext sc = StyleContext.getDefaultStyleContext();
+        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
+
+        aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Lucida Console");
+        aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
+
+        int len = tp.getDocument().getLength();
+        tp.setCaretPosition(len);
+        tp.setCharacterAttributes(aset, false);
+        tp.replaceSelection(msg);
+    }
+
 
 }
