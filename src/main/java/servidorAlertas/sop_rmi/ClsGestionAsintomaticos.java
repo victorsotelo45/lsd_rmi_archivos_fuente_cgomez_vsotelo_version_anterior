@@ -7,7 +7,11 @@ import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import servidorAlertas.dao.AsintomaticoDAOImpl;
+import servidorAlertas.dao.AsintomaticoDAOInt;
 import servidorAlertas.dto.ClsAsintomaticoDTO;
 import servidorNotificaciones.dto.ClsMensajeNotificacionDTO;
 import servidorNotificaciones.sop_rmi.NotificacionesInt;
@@ -64,10 +68,22 @@ public class ClsGestionAsintomaticos extends UnicastRemoteObject implements Gest
             
         System.out.println("Desde enviarIndicadores()...");
         String nombres, apellidos, tipo_id, mensaje;
+        String fechaAlerta, horaAlerta, strDateFormatFecha, strDateFormatHora;
+        Date fechaActual;
+        SimpleDateFormat objSDF;
+        strDateFormatFecha = "dd-MM-yyyy";
+        strDateFormatHora = "hh:mm:ss";
+        fechaActual = new Date();
+        objSDF = new SimpleDateFormat(strDateFormatFecha);
+        fechaAlerta = objSDF.format(fechaActual);
+        objSDF = new SimpleDateFormat(strDateFormatHora);
+        horaAlerta =  objSDF.format(fechaActual);
         boolean bandera = false;
         int puntuacion = 0;
+        AsintomaticoDAOImpl objetoAsintomaticoDAO;    
         ClsMensajeNotificacionDTO objMensajeNotificacion;
         ClsAsintomaticoDTO pacienteAsintomatico;
+        
         AsintomaticoCllbckInt objAsintomaticoCllbck = existeAsintomatico(id);
         if(objAsintomaticoCllbck != null)
         {
@@ -80,7 +96,6 @@ public class ClsGestionAsintomaticos extends UnicastRemoteObject implements Gest
             nombres = pacienteAsintomatico.getNombres();
             apellidos = pacienteAsintomatico.getApellidos();
             tipo_id = pacienteAsintomatico.getTipo_id();
-            
             
             if(puntuacion == 0 || puntuacion == 1)
             {
@@ -95,10 +110,11 @@ public class ClsGestionAsintomaticos extends UnicastRemoteObject implements Gest
             }
             
             if(puntuacion >= 3)
-            {
+            {   objetoAsintomaticoDAO = new AsintomaticoDAOImpl();
+                objetoAsintomaticoDAO.escribirHistorialAsintomatico(pacienteAsintomatico, fechaAlerta, horaAlerta, puntuacion);
                 mensaje = "Alerta, el personal médico debe remitir el paciente "+nombres+" "+apellidos+" identificado con ["+tipo_id+"]["+id+"] al hospital!!!";
                 objAsintomaticoCllbck.notificar(mensaje);
-                objMensajeNotificacion = new ClsMensajeNotificacionDTO(mensaje);
+                objMensajeNotificacion = new ClsMensajeNotificacionDTO(pacienteAsintomatico, frecuenciaCardiaca, frecuenciaRespiratoria, temperatura);
                 objetoRemotoServidorNotificaciones.notificarRegistro(objMensajeNotificacion);
             }
                
@@ -109,7 +125,8 @@ public class ClsGestionAsintomaticos extends UnicastRemoteObject implements Gest
         return bandera;
     }
     
-    public  AsintomaticoCllbckInt existeAsintomatico(int id) throws RemoteException
+    
+    public AsintomaticoCllbckInt existeAsintomatico(int id) throws RemoteException
     {
         AsintomaticoCllbckInt resultado = null;
         for(AsintomaticoCllbckInt objAsintomaticoCllbck:asintomaticos)
@@ -121,5 +138,6 @@ public class ClsGestionAsintomaticos extends UnicastRemoteObject implements Gest
         }
         return resultado;
     }
+    
     
 }
