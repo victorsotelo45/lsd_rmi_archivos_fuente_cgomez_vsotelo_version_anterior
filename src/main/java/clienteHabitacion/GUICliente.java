@@ -11,6 +11,7 @@ import clienteHabitacion.utilidades.UtilidadesConsola;
 import clienteHabitacion.utilidades.UtilidadesRegistroC;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.io.File;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -463,6 +464,11 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
                 new GUICliente().setVisible(true);
             }
         });
+        
+        File archivo = new File("historialDeAlertas.txt");
+        if(archivo.delete())
+            System.out.println("El archivo historialDeAlertas.txt ha sido borrado satisfactoriamente!!!");
+        else System.out.println("El archivo historialDeAlertas.txt no se  ha podido borrar o no existe!!!");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

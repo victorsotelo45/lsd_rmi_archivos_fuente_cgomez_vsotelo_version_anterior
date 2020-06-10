@@ -30,7 +30,7 @@ public class AsintomaticoDAOImpl {
         try
         {
             archivo = new FileWriter("historialDeAlertas.txt",true);
-           
+          
             if(archivo == null)
             {
                 System.out.println("Error al abrir el archivo!!!");

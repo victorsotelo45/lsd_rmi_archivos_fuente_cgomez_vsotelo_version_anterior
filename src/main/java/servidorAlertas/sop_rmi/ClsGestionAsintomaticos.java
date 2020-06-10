@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import servidorAlertas.dao.AsintomaticoDAOImpl;
-import servidorAlertas.dao.AsintomaticoDAOInt;
 import servidorAlertas.dto.ClsAsintomaticoDTO;
 import servidorNotificaciones.dto.ClsMensajeNotificacionDTO;
 import servidorNotificaciones.sop_rmi.NotificacionesInt;
@@ -79,7 +78,8 @@ public class ClsGestionAsintomaticos extends UnicastRemoteObject implements Gest
         objSDF = new SimpleDateFormat(strDateFormatHora);
         horaAlerta =  objSDF.format(fechaActual);
         boolean bandera = false;
-        int puntuacion = 0;
+        int puntuacionIndicadores = 0; 
+        int puntuacionFrecCardiaca = 0, puntuacionFrecRespiratoria = 0, puntuacionTemperatura = 0;
         AsintomaticoDAOImpl objetoAsintomaticoDAO;    
         ClsMensajeNotificacionDTO objMensajeNotificacion;
         ClsAsintomaticoDTO pacienteAsintomatico;
@@ -87,9 +87,21 @@ public class ClsGestionAsintomaticos extends UnicastRemoteObject implements Gest
         AsintomaticoCllbckInt objAsintomaticoCllbck = existeAsintomatico(id);
         if(objAsintomaticoCllbck != null)
         {
-            if(frecuenciaCardiaca < 60 || frecuenciaCardiaca > 80) puntuacion++;
-            if(frecuenciaRespiratoria < 70 || frecuenciaRespiratoria > 90) puntuacion++;
-            if(temperatura < 36.2 || temperatura > 37.2) puntuacion++;
+            if(frecuenciaCardiaca < 60 || frecuenciaCardiaca > 80) 
+            {
+                puntuacionIndicadores++;
+                puntuacionFrecCardiaca = 1;
+            }
+            if(frecuenciaRespiratoria < 70 || frecuenciaRespiratoria > 90)
+            { 
+                puntuacionIndicadores++;
+                puntuacionFrecRespiratoria = 1;
+            }
+            if(temperatura < 36.2 || temperatura > 37.2) 
+            {
+                puntuacionIndicadores++;
+                puntuacionTemperatura = 1;
+            }
             
             pacienteAsintomatico = objAsintomaticoCllbck.getPacienteAsintomatico();
             
@@ -97,21 +109,29 @@ public class ClsGestionAsintomaticos extends UnicastRemoteObject implements Gest
             apellidos = pacienteAsintomatico.getApellidos();
             tipo_id = pacienteAsintomatico.getTipo_id();
             
-            if(puntuacion == 0 || puntuacion == 1)
+            objetoAsintomaticoDAO = new AsintomaticoDAOImpl();
+            
+            if(puntuacionIndicadores == 0 || puntuacionIndicadores == 1)
             {
                 System.out.println("El paciente "+nombres+" "+apellidos+" identificado con ["+tipo_id+"]["+id+"] debe continuar monitorizacion!!!");
                 
             }
             
-            if(puntuacion == 2)
+            if(puntuacionIndicadores == 2)
             {
+                objetoAsintomaticoDAO.escribirHistorialAsintomatico(pacienteAsintomatico, fechaAlerta, horaAlerta, puntuacionIndicadores);
                 mensaje = "Alerta, el personal médico debe visitar al paciente "+nombres+" "+apellidos+" identificado con ["+tipo_id+"]["+id+"]!!!";
                 objAsintomaticoCllbck.notificar(mensaje);
+                if(puntuacionFrecCardiaca == 0) frecuenciaCardiaca = 0;
+                if(puntuacionFrecRespiratoria == 0) frecuenciaRespiratoria = 0;
+                if(puntuacionTemperatura == 0) temperatura = 0;
+                objMensajeNotificacion = new ClsMensajeNotificacionDTO(pacienteAsintomatico, frecuenciaCardiaca, frecuenciaRespiratoria, temperatura);
+                objetoRemotoServidorNotificaciones.notificarRegistro(objMensajeNotificacion);
             }
             
-            if(puntuacion >= 3)
-            {   objetoAsintomaticoDAO = new AsintomaticoDAOImpl();
-                objetoAsintomaticoDAO.escribirHistorialAsintomatico(pacienteAsintomatico, fechaAlerta, horaAlerta, puntuacion);
+            if(puntuacionIndicadores >= 3)
+            {   
+                objetoAsintomaticoDAO.escribirHistorialAsintomatico(pacienteAsintomatico, fechaAlerta, horaAlerta, puntuacionIndicadores);
                 mensaje = "Alerta, el personal médico debe remitir el paciente "+nombres+" "+apellidos+" identificado con ["+tipo_id+"]["+id+"] al hospital!!!";
                 objAsintomaticoCllbck.notificar(mensaje);
                 objMensajeNotificacion = new ClsMensajeNotificacionDTO(pacienteAsintomatico, frecuenciaCardiaca, frecuenciaRespiratoria, temperatura);
@@ -138,6 +158,5 @@ public class ClsGestionAsintomaticos extends UnicastRemoteObject implements Gest
         }
         return resultado;
     }
-    
-    
+
 }
