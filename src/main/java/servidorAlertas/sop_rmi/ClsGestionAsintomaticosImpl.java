@@ -10,21 +10,22 @@ import java.rmi.server.UnicastRemoteObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import servidorAlertas.dao.AsintomaticoDAOImpl;
+import servidorAlertas.dao.ClsAsintomaticoDAOImpl;
+import servidorAlertas.dao.AsintomaticoDAOInt;
 import servidorAlertas.dto.ClsAsintomaticoDTO;
 import servidorNotificaciones.dto.ClsMensajeNotificacionDTO;
-import servidorNotificaciones.sop_rmi.NotificacionesInt;
+import servidorNotificaciones.sop_rmi.NotificacionInt;
 
-public class ClsGestionAsintomaticos extends UnicastRemoteObject implements GestionAsintomaticosInt {
+public class ClsGestionAsintomaticosImpl extends UnicastRemoteObject implements GestionAsintomaticosInt {
 
     
-    private static NotificacionesInt objetoRemotoServidorNotificaciones;
+    private static NotificacionInt objetoRemotoServidorNotificaciones;
     private ArrayList<AsintomaticoCllbckInt> asintomaticos;
     
 
-    public ClsGestionAsintomaticos(String direccionIpRMIRegistry, int numPuertoRMIRegistry) throws RemoteException, NotBoundException, MalformedURLException {
+    public ClsGestionAsintomaticosImpl(String direccionIpRMIRegistry, int numPuertoRMIRegistry) throws RemoteException, NotBoundException, MalformedURLException {
         this.asintomaticos = new ArrayList<AsintomaticoCllbckInt>();
-        objetoRemotoServidorNotificaciones = (NotificacionesInt)UtilidadesRegistroC.ObtenerObjRemoto(direccionIpRMIRegistry, numPuertoRMIRegistry,"ObjetoRemotoNotificaciones");
+        objetoRemotoServidorNotificaciones = (NotificacionInt)UtilidadesRegistroC.ObtenerObjRemoto(direccionIpRMIRegistry, numPuertoRMIRegistry,"ObjetoRemotoNotificaciones");
              
     }
     
@@ -80,7 +81,7 @@ public class ClsGestionAsintomaticos extends UnicastRemoteObject implements Gest
         boolean bandera = false;
         int puntuacionIndicadores = 0; 
         int puntuacionFrecCardiaca = 0, puntuacionFrecRespiratoria = 0, puntuacionTemperatura = 0;
-        AsintomaticoDAOImpl objetoAsintomaticoDAO;    
+        AsintomaticoDAOInt objetoAsintomaticoDAO;    
         ClsMensajeNotificacionDTO objMensajeNotificacion;
         ClsAsintomaticoDTO pacienteAsintomatico;
         
@@ -109,7 +110,7 @@ public class ClsGestionAsintomaticos extends UnicastRemoteObject implements Gest
             apellidos = pacienteAsintomatico.getApellidos();
             tipo_id = pacienteAsintomatico.getTipo_id();
             
-            objetoAsintomaticoDAO = new AsintomaticoDAOImpl();
+            objetoAsintomaticoDAO = new ClsAsintomaticoDAOImpl();
             
             if(puntuacionIndicadores == 0 || puntuacionIndicadores == 1)
             {
@@ -121,7 +122,7 @@ public class ClsGestionAsintomaticos extends UnicastRemoteObject implements Gest
             {
                 objetoAsintomaticoDAO.escribirHistorialAsintomatico(pacienteAsintomatico, fechaAlerta, horaAlerta, puntuacionIndicadores);
                 mensaje = "Alerta, el personal médico debe visitar al paciente "+nombres+" "+apellidos+" identificado con ["+tipo_id+"]["+id+"]!!!";
-                objAsintomaticoCllbck.notificar(mensaje);
+                objAsintomaticoCllbck.notificarMensajeCllbck(mensaje);
                 if(puntuacionFrecCardiaca == 0) frecuenciaCardiaca = 0;
                 if(puntuacionFrecRespiratoria == 0) frecuenciaRespiratoria = 0;
                 if(puntuacionTemperatura == 0) temperatura = 0;
@@ -133,7 +134,7 @@ public class ClsGestionAsintomaticos extends UnicastRemoteObject implements Gest
             {   
                 objetoAsintomaticoDAO.escribirHistorialAsintomatico(pacienteAsintomatico, fechaAlerta, horaAlerta, puntuacionIndicadores);
                 mensaje = "Alerta, el personal médico debe remitir el paciente "+nombres+" "+apellidos+" identificado con ["+tipo_id+"]["+id+"] al hospital!!!";
-                objAsintomaticoCllbck.notificar(mensaje);
+                objAsintomaticoCllbck.notificarMensajeCllbck(mensaje);
                 objMensajeNotificacion = new ClsMensajeNotificacionDTO(pacienteAsintomatico, frecuenciaCardiaca, frecuenciaRespiratoria, temperatura);
                 objetoRemotoServidorNotificaciones.notificarRegistro(objMensajeNotificacion);
             }

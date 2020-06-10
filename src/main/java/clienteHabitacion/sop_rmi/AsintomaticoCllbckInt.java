@@ -6,6 +6,6 @@ import servidorAlertas.dto.ClsAsintomaticoDTO;
 
 public interface AsintomaticoCllbckInt extends Remote{
         public ClsAsintomaticoDTO getPacienteAsintomatico() throws RemoteException;
-	public void notificar(String mensaje) throws RemoteException;
+	public void notificarMensajeCllbck(String mensaje) throws RemoteException;
 }
 

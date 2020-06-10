@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
 import servidorNotificaciones.dto.ClsMensajeNotificacionDTO;
 
 
-public interface NotificacionesInt extends Remote{
-    public void notificarRegistro(ClsMensajeNotificacionDTO objNotificacion) throws RemoteException;
+public interface NotificacionInt extends Remote{
+    public void notificarRegistro(ClsMensajeNotificacionDTO objMensajeNotificacion) throws RemoteException;
     
 }

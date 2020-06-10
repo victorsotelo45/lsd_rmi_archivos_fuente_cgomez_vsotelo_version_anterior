@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package servidorAlertas.dao;
 
 import java.io.BufferedReader;
@@ -14,8 +10,9 @@ import java.io.PrintWriter;
 import static java.lang.System.exit;
 import servidorAlertas.dto.ClsAsintomaticoDTO;
 
-public class AsintomaticoDAOImpl {
+public class ClsAsintomaticoDAOImpl implements AsintomaticoDAOInt{
     
+    @Override
     public void escribirHistorialAsintomatico(ClsAsintomaticoDTO pacienteAsintomatico,String fechaAlerta, String horaAlerta, int puntuacion)
     {
         int id;
@@ -30,10 +27,10 @@ public class AsintomaticoDAOImpl {
         try
         {
             archivo = new FileWriter("historialDeAlertas.txt",true);
-          
+            
             if(archivo == null)
             {
-                System.out.println("Error al abrir el archivo!!!");
+                System.out.println("Error al abrir el archivo para escritura!!!");
                 exit(0);
             }
                 pw = new PrintWriter(archivo);
@@ -54,8 +51,10 @@ public class AsintomaticoDAOImpl {
               e2.printStackTrace();
            }
         }
+        
     }
     
+    @Override
     public void leerHistorialAsintomatico(int id_asintomatico)
     {
         File archivo = null;
@@ -69,7 +68,12 @@ public class AsintomaticoDAOImpl {
              archivo = new File ("historialDeAlertas.txt");
              fr = new FileReader (archivo);
              br = new BufferedReader(fr);
-
+             
+            if(archivo.exists() == false)
+            {
+                System.out.println("Error al abrir el archivo para lectura!!!");
+                exit(0);
+            }
              // Lectura del fichero
              int i;
              String[] datos_asintomatico = null; 

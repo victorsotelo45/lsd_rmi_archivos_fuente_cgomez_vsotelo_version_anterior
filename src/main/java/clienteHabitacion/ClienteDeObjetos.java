@@ -1,6 +1,6 @@
 package clienteHabitacion;
 
-import clienteHabitacion.sop_rmi.AsintomaticoCllbckImpl;
+import clienteHabitacion.sop_rmi.ClsAsintomaticoCllbckImpl;
 import clienteHabitacion.utilidades.UtilidadesConsola;
 import clienteHabitacion.utilidades.UtilidadesRegistroC;
 import static java.lang.System.exit;
@@ -22,7 +22,7 @@ public class ClienteDeObjetos
             float temperatura;
             boolean registroAsintomaticoCllbck, notificoIndicador;
             ClsAsintomaticoDTO pacienteAsintomatico;
-            //AsintomaticoCllbckImpl nuevoAsintomaticoCllbck;
+            ClsAsintomaticoCllbckImpl nuevoAsintomaticoCllbck;
                         
             do
             {
@@ -51,11 +51,11 @@ public class ClienteDeObjetos
                                System.out.print("Direccion: ");
                                direccion = UtilidadesConsola.leerCadena();
                                pacienteAsintomatico = new ClsAsintomaticoDTO(nombres, apellidos, tipo_id, id, direccion);
-                               //nuevoAsintomaticoCllbck = new AsintomaticoCllbckImpl(pacienteAsintomatico);
-                               //registroAsintomaticoCllbck = objetoRemotoServidorAlertas.registrarAsintomatico(nuevoAsintomaticoCllbck);
-                               //if(registroAsintomaticoCllbck)
+                               nuevoAsintomaticoCllbck = new ClsAsintomaticoCllbckImpl(pacienteAsintomatico);
+                               registroAsintomaticoCllbck = objetoRemotoServidorAlertas.registrarAsintomatico(nuevoAsintomaticoCllbck);
+                               if(registroAsintomaticoCllbck)
                                    System.out.println("Se registro paciente asintomatico exitosamente!!!");
-                               //else
+                               else
                                    System.out.println("No se registro paciente asintomatico (error de registro o ya se registraron 5 pacientes)!!!");
                            
                            }else System.out.println("El paciente asintomatico ya esta registrado!!!");

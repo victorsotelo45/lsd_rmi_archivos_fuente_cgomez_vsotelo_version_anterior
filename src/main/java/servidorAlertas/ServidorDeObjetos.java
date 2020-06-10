@@ -5,7 +5,7 @@ import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 import java.rmi.NotBoundException;
 import servidorAlertas.utilidades.UtilidadesRegistroS;
-import servidorAlertas.sop_rmi.ClsGestionAsintomaticos;
+import servidorAlertas.sop_rmi.ClsGestionAsintomaticosImpl;
 
 public class ServidorDeObjetos
 {
@@ -17,7 +17,7 @@ public class ServidorDeObjetos
 		direccionIpRMIRegistry = UtilidadesConsola.leerCadena();
 		System.out.print("Cual es el numero de puerto por el cual escucha el rmiregistry: ");
 		numPuertoRMIRegistry = UtilidadesConsola.leerEntero();
-		ClsGestionAsintomaticos objRemoto = new ClsGestionAsintomaticos(direccionIpRMIRegistry,numPuertoRMIRegistry);
+		ClsGestionAsintomaticosImpl objRemoto = new ClsGestionAsintomaticosImpl(direccionIpRMIRegistry,numPuertoRMIRegistry);
 		
 		try
 		{

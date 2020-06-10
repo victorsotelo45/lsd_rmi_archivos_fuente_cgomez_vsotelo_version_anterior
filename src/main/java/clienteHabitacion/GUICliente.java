@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package clienteHabitacion;
 
-import clienteHabitacion.sop_rmi.AsintomaticoCllbckImpl;
+import clienteHabitacion.sop_rmi.ClsAsintomaticoCllbckImpl;
 import clienteHabitacion.utilidades.UtilidadesConsola;
 import clienteHabitacion.utilidades.UtilidadesRegistroC;
 import java.awt.CardLayout;
@@ -26,10 +21,7 @@ import javax.swing.text.StyleContext;
 import servidorAlertas.dto.ClsAsintomaticoDTO;
 import servidorAlertas.sop_rmi.GestionAsintomaticosInt;
 
-/**
- *
- * @author VICTOR MANUEL
- */
+
 public class GUICliente extends javax.swing.JFrame implements Runnable{
 
     private static GestionAsintomaticosInt objetoRemotoServidorAlertas;
@@ -391,10 +383,10 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
         else
         tipo = "PP";
         ClsAsintomaticoDTO paciente = new ClsAsintomaticoDTO(jTextFieldNombre.getText(),jTextFieldApellido.getText(),tipo, Integer.parseInt(jTextFieldId.getText()), jTextFieldDireccion.getText());
-        AsintomaticoCllbckImpl asintomatico;
+        ClsAsintomaticoCllbckImpl asintomatico;
       
         try {
-            asintomatico = new AsintomaticoCllbckImpl(paciente,this);
+            asintomatico = new ClsAsintomaticoCllbckImpl(paciente,this);
             if(objetoRemotoServidorAlertas.registrarAsintomatico(asintomatico) ){
                 JOptionPane.showMessageDialog(null, "Paciente registrado");
                 limpiarPanelRegistrar();
@@ -468,7 +460,7 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
         File archivo = new File("historialDeAlertas.txt");
         if(archivo.delete())
             System.out.println("El archivo historialDeAlertas.txt ha sido borrado satisfactoriamente!!!");
-        else System.out.println("El archivo historialDeAlertas.txt no se  ha podido borrar o no existe!!!");
+        else System.out.println("El archivo historialDeAlertas.txt no se ha podido borrar o no existe!!!");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

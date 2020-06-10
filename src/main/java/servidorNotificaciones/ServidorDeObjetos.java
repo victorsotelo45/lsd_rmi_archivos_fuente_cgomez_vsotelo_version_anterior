@@ -3,7 +3,7 @@ package servidorNotificaciones;
 import clienteHabitacion.utilidades.UtilidadesConsola;
 import java.rmi.RemoteException;
 import servidorAlertas.utilidades.UtilidadesRegistroS;
-import servidorNotificaciones.sop_rmi.ClsNotificacion;
+import servidorNotificaciones.sop_rmi.ClsNotificacionImpl;
 
 public class ServidorDeObjetos
 {
@@ -16,7 +16,7 @@ public class ServidorDeObjetos
 		direccionIpRMIRegistry = UtilidadesConsola.leerCadena();
 		System.out.print("Cual es el numero de puerto por el cual escucha el rmiregistry: ");
 		numPuertoRMIRegistry = UtilidadesConsola.leerEntero();
-                ClsNotificacion objRemoto = new ClsNotificacion();
+                ClsNotificacionImpl objRemoto = new ClsNotificacionImpl();
 		
 		try
 		{
