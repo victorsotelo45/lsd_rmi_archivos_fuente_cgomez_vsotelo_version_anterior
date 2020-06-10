@@ -16,7 +16,7 @@ public class ClsAsintomaticoDAOImpl implements AsintomaticoDAOInt{
     public void escribirHistorialAsintomatico(ClsAsintomaticoDTO pacienteAsintomatico,String fechaAlerta, String horaAlerta, int puntuacion)
     {
         int id;
-        String tipo_id, nombres, apellidos;
+        String tipo_id, nombres, apellidos, directorioArchivo;
         id = pacienteAsintomatico.getId();
         tipo_id = pacienteAsintomatico.getTipo_id();
         nombres = pacienteAsintomatico.getNombres();
@@ -24,9 +24,11 @@ public class ClsAsintomaticoDAOImpl implements AsintomaticoDAOInt{
         FileWriter archivo = null;
         PrintWriter pw = null;
         
+        directorioArchivo = "src/main/java/servidorAlertas/";
+        
         try
         {
-            archivo = new FileWriter("historialDeAlertas.txt",true);
+            archivo = new FileWriter(directorioArchivo+"historialDeAlertas.txt",true);
             
             if(archivo == null)
             {
@@ -57,15 +59,18 @@ public class ClsAsintomaticoDAOImpl implements AsintomaticoDAOInt{
     @Override
     public void leerHistorialAsintomatico(int id_asintomatico)
     {
+        String directorioArchivo;
         File archivo = null;
         FileReader fr = null;
         BufferedReader br = null;
+        
+        directorioArchivo = "src/main/java/servidorAlertas/";
 
         try 
         {
              // Apertura del fichero y creacion de BufferedReader para poder
              // hacer una lectura comoda (disponer del metodo readLine()).
-             archivo = new File ("historialDeAlertas.txt");
+             archivo = new File (directorioArchivo+"historialDeAlertas.txt");
              fr = new FileReader (archivo);
              br = new BufferedReader(fr);
              

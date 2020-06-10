@@ -3,6 +3,7 @@ package clienteHabitacion;
 import clienteHabitacion.sop_rmi.ClsAsintomaticoCllbckImpl;
 import clienteHabitacion.utilidades.UtilidadesConsola;
 import clienteHabitacion.utilidades.UtilidadesRegistroC;
+import java.io.File;
 import static java.lang.System.exit;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
@@ -17,13 +18,13 @@ public class ClienteDeObjetos
                 
         public static void MenuPrincipal() throws RemoteException
         {
-            String nombres, apellidos, tipo_id, direccion;
+            String nombres, apellidos, tipo_id, direccion, directorioArchivo;
             int opcion, id, frecuenciaCardiaca, frecuenciaRespiratoria;
             float temperatura;
             boolean registroAsintomaticoCllbck, notificoIndicador;
             ClsAsintomaticoDTO pacienteAsintomatico;
             ClsAsintomaticoCllbckImpl nuevoAsintomaticoCllbck;
-                        
+            
             do
             {
                 System.out.println("Menu");
@@ -56,7 +57,7 @@ public class ClienteDeObjetos
                                if(registroAsintomaticoCllbck)
                                    System.out.println("Se registro paciente asintomatico exitosamente!!!");
                                else
-                                   System.out.println("No se registro paciente asintomatico (error de registro o ya se registraron 5 pacientes)!!!");
+                                   System.out.println("No se registro paciente asintomatico (error de registro o ya se registraron el maximo numero de pacientes)!!!");
                            
                            }else System.out.println("El paciente asintomatico ya esta registrado!!!");
                         
@@ -98,11 +99,12 @@ public class ClienteDeObjetos
                     break;
                     
                     case 4:
-                            exit(0);
+                        
+                                exit(0);
                     break;
                     
                     default:
-                        System.out.println("Opcion no valida!!!");
+                                System.out.println("Opcion no valida!!!");
                     break;
                 
                 
@@ -110,20 +112,28 @@ public class ClienteDeObjetos
             
             }while(opcion!=4);   
             
+            
+            
         }
 	
 	public static void main (String [] args) throws NotBoundException, MalformedURLException, RemoteException
 	{
-		int numPuertoRMIRegistry = 0;
+		String directorioArchivo;
+                int numPuertoRMIRegistry = 0;
 		String direccionIpRMIRegistry = "";
 		System.out.print("Cual es la direccion ip donde se encuentra el rmiregistry: ");
 		direccionIpRMIRegistry = UtilidadesConsola.leerCadena();
 		System.out.print("Cual es el numero de puerto por el cual escucha el rmiregistry: ");	
 		numPuertoRMIRegistry = UtilidadesConsola.leerEntero();
 		objetoRemotoServidorAlertas = (GestionAsintomaticosInt)UtilidadesRegistroC.ObtenerObjRemoto(direccionIpRMIRegistry, numPuertoRMIRegistry,"ObjetoGestionAsintomaticos");
-		MenuPrincipal();
                 
-            
+                directorioArchivo = "src/main/java/servidorAlertas/";
+                File archivo = new File(directorioArchivo+"historialDeAlertas.txt");
+                if(archivo.delete())
+                   System.out.println("El archivo historialDeAlertas.txt ha sido borrado satisfactoriamente!!!");
+                else System.out.println("El archivo historialDeAlertas.txt no se ha podido borrar o no existe!!!");
+                
+                MenuPrincipal();
 	
 	}
 	

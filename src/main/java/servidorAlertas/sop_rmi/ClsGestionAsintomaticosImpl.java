@@ -2,6 +2,7 @@
 package servidorAlertas.sop_rmi;
 
 import clienteHabitacion.sop_rmi.AsintomaticoCllbckInt;
+import clienteHabitacion.sop_rmi.ClsAsintomaticoCllbckImpl;
 import servidorAlertas.utilidades.UtilidadesRegistroC;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
@@ -21,12 +22,21 @@ public class ClsGestionAsintomaticosImpl extends UnicastRemoteObject implements 
     
     private static NotificacionInt objetoRemotoServidorNotificaciones;
     private ArrayList<AsintomaticoCllbckInt> asintomaticos;
-    
+    private int numeroPacientes;
 
     public ClsGestionAsintomaticosImpl(String direccionIpRMIRegistry, int numPuertoRMIRegistry) throws RemoteException, NotBoundException, MalformedURLException {
         this.asintomaticos = new ArrayList<AsintomaticoCllbckInt>();
+        this.numeroPacientes=0;
         objetoRemotoServidorNotificaciones = (NotificacionInt)UtilidadesRegistroC.ObtenerObjRemoto(direccionIpRMIRegistry, numPuertoRMIRegistry,"ObjetoRemotoNotificaciones");
              
+    }
+
+    public void setNumeroPacientes(int numeroPacientes) {
+        this.numeroPacientes = numeroPacientes;
+    }
+
+    public int getNumeroPacientes() {
+        return this.numeroPacientes;
     }
     
     @Override
@@ -35,7 +45,7 @@ public class ClsGestionAsintomaticosImpl extends UnicastRemoteObject implements 
         System.out.println("Desde registrarAsintomatico()...");
         boolean  bandera = false;
                 
-        if(this.asintomaticos.size()<5)
+        if(this.asintomaticos.size() < this.numeroPacientes)
         {
               bandera = this.asintomaticos.add(objAsintomaticoCllbck);
 
@@ -145,7 +155,6 @@ public class ClsGestionAsintomaticosImpl extends UnicastRemoteObject implements 
         System.out.println("Saliendo de enviarIndicadores()...");
         return bandera;
     }
-    
     
     public AsintomaticoCllbckInt existeAsintomatico(int id) throws RemoteException
     {
