@@ -72,7 +72,7 @@ public class ClsGestionAsintomaticos extends UnicastRemoteObject implements Gest
         Date fechaActual;
         SimpleDateFormat objSDF;
         strDateFormatFecha = "dd-MM-yyyy";
-        strDateFormatHora = "hh:mm:ss";
+        strDateFormatHora = "HH:mm:ss";
         fechaActual = new Date();
         objSDF = new SimpleDateFormat(strDateFormatFecha);
         fechaAlerta = objSDF.format(fechaActual);

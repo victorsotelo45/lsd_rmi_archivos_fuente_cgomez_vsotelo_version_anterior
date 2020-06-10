@@ -22,7 +22,7 @@ public class ClienteDeObjetos
             float temperatura;
             boolean registroAsintomaticoCllbck, notificoIndicador;
             ClsAsintomaticoDTO pacienteAsintomatico;
-            AsintomaticoCllbckImpl nuevoAsintomaticoCllbck;
+            //AsintomaticoCllbckImpl nuevoAsintomaticoCllbck;
                         
             do
             {
@@ -51,11 +51,11 @@ public class ClienteDeObjetos
                                System.out.print("Direccion: ");
                                direccion = UtilidadesConsola.leerCadena();
                                pacienteAsintomatico = new ClsAsintomaticoDTO(nombres, apellidos, tipo_id, id, direccion);
-                               nuevoAsintomaticoCllbck = new AsintomaticoCllbckImpl(pacienteAsintomatico);
-                               registroAsintomaticoCllbck = objetoRemotoServidorAlertas.registrarAsintomatico(nuevoAsintomaticoCllbck);
-                               if(registroAsintomaticoCllbck)
+                               //nuevoAsintomaticoCllbck = new AsintomaticoCllbckImpl(pacienteAsintomatico);
+                               //registroAsintomaticoCllbck = objetoRemotoServidorAlertas.registrarAsintomatico(nuevoAsintomaticoCllbck);
+                               //if(registroAsintomaticoCllbck)
                                    System.out.println("Se registro paciente asintomatico exitosamente!!!");
-                               else
+                               //else
                                    System.out.println("No se registro paciente asintomatico (error de registro o ya se registraron 5 pacientes)!!!");
                            
                            }else System.out.println("El paciente asintomatico ya esta registrado!!!");
@@ -112,7 +112,6 @@ public class ClienteDeObjetos
             
         }
 	
-        
 	public static void main (String [] args) throws NotBoundException, MalformedURLException, RemoteException
 	{
 		int numPuertoRMIRegistry = 0;
@@ -123,6 +122,8 @@ public class ClienteDeObjetos
 		numPuertoRMIRegistry = UtilidadesConsola.leerEntero();
 		objetoRemotoServidorAlertas = (GestionAsintomaticosInt)UtilidadesRegistroC.ObtenerObjRemoto(direccionIpRMIRegistry, numPuertoRMIRegistry,"ObjetoGestionAsintomaticos");
 		MenuPrincipal();
+                
+            
 	
 	}
 	

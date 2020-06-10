@@ -26,6 +26,7 @@ public class AsintomaticoDAOImpl {
         apellidos = pacienteAsintomatico.getApellidos();
         FileWriter archivo = null;
         PrintWriter pw = null;
+        
         try
         {
             archivo = new FileWriter("historialDeAlertas.txt",true);
@@ -70,14 +71,16 @@ public class AsintomaticoDAOImpl {
              br = new BufferedReader(fr);
 
              // Lectura del fichero
+             int i;
              String[] datos_asintomatico = null; 
              String linea;
              System.out.println("Fecha_Alerta Hora_de_Alerta Puntuacion");
              while((linea=br.readLine())!=null)
              {   datos_asintomatico = linea.split(" ");
+                 i = datos_asintomatico.length - 1;
                 if(Integer.parseInt(datos_asintomatico[0]) == id_asintomatico)
                 {
-                    System.out.println(datos_asintomatico[4]+"   "+datos_asintomatico[5]+"   "+datos_asintomatico[6]);
+                    System.out.println(datos_asintomatico[i-2]+"   "+datos_asintomatico[i-1]+"       "+datos_asintomatico[i]);
                 }
              }      
         }
