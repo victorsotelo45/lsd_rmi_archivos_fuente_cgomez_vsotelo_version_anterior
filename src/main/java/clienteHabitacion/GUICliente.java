@@ -7,6 +7,7 @@ import clienteHabitacion.utilidades.UtilidadesRegistroC;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.io.File;
+import static java.lang.System.exit;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -35,8 +36,8 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
     public void limpiarPanelRegistrar(){
         buttonGroupTipo.clearSelection();
         jTextFieldId.setText("");
-        jTextFieldNombre.setText("");
-        jTextFieldApellido.setText("");
+        jTextFieldNombres.setText("");
+        jTextFieldApellidos.setText("");
         jTextFieldDireccion.setText("");
     }
     public void fijarAlerta(String mensaje){
@@ -68,8 +69,8 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
         jRadioButtonPP = new javax.swing.JRadioButton();
         jLabelApellido = new javax.swing.JLabel();
         jLabelDireccion = new javax.swing.JLabel();
-        jTextFieldNombre = new javax.swing.JTextField();
-        jTextFieldApellido = new javax.swing.JTextField();
+        jTextFieldNombres = new javax.swing.JTextField();
+        jTextFieldApellidos = new javax.swing.JTextField();
         jTextFieldDireccion = new javax.swing.JTextField();
         jTextFieldId = new javax.swing.JTextField();
         jPanelConsultar = new javax.swing.JPanel();
@@ -117,12 +118,9 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
                 .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jButtonConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanelMenuLayout.createSequentialGroup()
-                            .addComponent(jButtonEnviarIndicadores, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(94, 94, 94)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMenuLayout.createSequentialGroup()
-                        .addComponent(jButtonRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(94, 94, 94))))
+                        .addComponent(jButtonEnviarIndicadores, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonRegistrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(94, 94, 94))
         );
         jPanelMenuLayout.setVerticalGroup(
             jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,6 +152,11 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
         });
 
         jButtonSalir.setText("Salir");
+        jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalirActionPerformed(evt);
+            }
+        });
 
         buttonGroupTipo.add(jRadioButtonCC);
         jRadioButtonCC.setText("CC");
@@ -167,6 +170,30 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
         jLabelApellido.setText("Apellido");
 
         jLabelDireccion.setText("Direccion de domicilio");
+
+        jTextFieldNombres.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldNombresKeyTyped(evt);
+            }
+        });
+
+        jTextFieldApellidos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldApellidosKeyTyped(evt);
+            }
+        });
+
+        jTextFieldDireccion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldDireccionKeyTyped(evt);
+            }
+        });
+
+        jTextFieldId.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldIdKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelRegistrarLayout = new javax.swing.GroupLayout(jPanelRegistrar);
         jPanelRegistrar.setLayout(jPanelRegistrarLayout);
@@ -189,8 +216,8 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
                         .addComponent(jRadioButtonTI)
                         .addGap(18, 18, 18)
                         .addComponent(jRadioButtonPP))
-                    .addComponent(jTextFieldNombre)
-                    .addComponent(jTextFieldApellido)
+                    .addComponent(jTextFieldNombres)
+                    .addComponent(jTextFieldApellidos)
                     .addComponent(jTextFieldDireccion)
                     .addComponent(jTextFieldId, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -217,11 +244,11 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
                 .addGap(18, 18, 18)
                 .addGroup(jPanelRegistrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelNombre)
-                    .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldNombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelRegistrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelApellido)
-                    .addComponent(jTextFieldApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelRegistrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelDireccion)
@@ -304,7 +331,7 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
                 .addComponent(jButtonEnviar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelIndicadoresLayout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -374,29 +401,37 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
 
     private void jButtonRegistrarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistrarPacienteActionPerformed
         // TODO add your handling code here:
-        String tipo;
-        if(jRadioButtonCC.isSelected())
-        tipo = "CC";
-        else
-        if(jRadioButtonTI.isSelected())
-        tipo = "TI";
-        else
-        tipo = "PP";
-        ClsAsintomaticoDTO paciente = new ClsAsintomaticoDTO(jTextFieldNombre.getText(),jTextFieldApellido.getText(),tipo, Integer.parseInt(jTextFieldId.getText()), jTextFieldDireccion.getText());
-        ClsAsintomaticoCllbckImpl asintomatico;
-      
-        try {
-            asintomatico = new ClsAsintomaticoCllbckImpl(paciente,this);
-            if(objetoRemotoServidorAlertas.registrarAsintomatico(asintomatico) ){
-                JOptionPane.showMessageDialog(null, "Paciente registrado");
-                limpiarPanelRegistrar();
-            }else
-                JOptionPane.showMessageDialog(null, "El paciente no se pudo registrar");
-                
-        } catch (RemoteException ex) {
-            Logger.getLogger(GUICliente.class.getName()).log(Level.SEVERE, null, ex);
-        }    
+        String tipo_id="";
+        
+       if((!jRadioButtonCC.isSelected() && !jRadioButtonTI.isSelected() && !jRadioButtonPP.isSelected()) ||
+          jTextFieldId.getText().isEmpty() || jTextFieldNombres.getText().isEmpty() || 
+          jTextFieldApellidos.getText().isEmpty() || jTextFieldDireccion.getText().isEmpty()) 
+        {
+               JOptionPane.showMessageDialog(null, "Datos requeridos no deben estar vacios!!!");
+        }else
+        {
+            if(jRadioButtonCC.isSelected())
+                tipo_id = "CC";
+            if(jRadioButtonTI.isSelected())
+                tipo_id = "TI";
+            if(jRadioButtonPP.isSelected())
+                tipo_id = "PP";
+        
+            ClsAsintomaticoDTO paciente = new ClsAsintomaticoDTO(jTextFieldNombres.getText(),jTextFieldApellidos.getText(),tipo_id, Integer.parseInt(jTextFieldId.getText()), jTextFieldDireccion.getText());
+            ClsAsintomaticoCllbckImpl asintomatico;
 
+            try {
+                asintomatico = new ClsAsintomaticoCllbckImpl(paciente,this);
+                if(objetoRemotoServidorAlertas.registrarAsintomatico(asintomatico) ){
+                    JOptionPane.showMessageDialog(null, "Se registro paciente exitosamente!!!");
+                    limpiarPanelRegistrar();
+                }else
+                    JOptionPane.showMessageDialog(null, "Error de registro de paciente o ya se registraron el maximo numero de pacientes!!!");
+
+            } catch (RemoteException ex) {
+                Logger.getLogger(GUICliente.class.getName()).log(Level.SEVERE, null, ex);
+            }    
+        }
     }//GEN-LAST:event_jButtonRegistrarPacienteActionPerformed
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
@@ -426,6 +461,81 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
         Thread enviarIndicadores = new Thread(this);
         enviarIndicadores.start();
     }//GEN-LAST:event_jButtonEnviarActionPerformed
+
+    private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
+        // TODO add your handling code here:
+        exit(0);
+    }//GEN-LAST:event_jButtonSalirActionPerformed
+
+    private void jTextFieldIdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldIdKeyTyped
+        // TODO add your handling code here:
+        int longitudCadena = 0;
+        char validar = evt.getKeyChar();
+        if(Character.isLetter(validar))
+        {   evt.consume();
+            getToolkit().beep();
+            JOptionPane.showMessageDialog(null,"Ingrese solo numeros!!!");
+        }
+        longitudCadena = jTextFieldId.getText().length();
+        
+        if(longitudCadena >= 5)
+        {
+            evt.consume();
+            getToolkit().beep();
+            JOptionPane.showMessageDialog(null,"El id del paciente debe estar entre 0 y 99999!!!");
+        }
+        
+        
+    }//GEN-LAST:event_jTextFieldIdKeyTyped
+
+    private void jTextFieldNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNombresKeyTyped
+        // TODO add your handling code here:
+        char validar = evt.getKeyChar();
+        if(Character.isDigit(validar))
+        {   evt.consume();
+            getToolkit().beep();
+            JOptionPane.showMessageDialog(null,"Ingrese solo letras!!!");
+        }
+        if(jTextFieldNombres.getText().length() >= 30)
+        {
+            evt.consume();
+            getToolkit().beep();
+            JOptionPane.showMessageDialog(null,"El nombre del paciente debe ser maximo de 30 caracteres!!!");
+        }
+        
+    }//GEN-LAST:event_jTextFieldNombresKeyTyped
+
+    private void jTextFieldApellidosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldApellidosKeyTyped
+        // TODO add your handling code here:
+        char validar = evt.getKeyChar();
+        if(Character.isDigit(validar))
+        {   evt.consume();
+            getToolkit().beep();
+            JOptionPane.showMessageDialog(null,"Ingrese solo letras!!!");
+        }
+        if(jTextFieldApellidos.getText().length() >= 30)
+        {
+            evt.consume();
+            getToolkit().beep();
+            JOptionPane.showMessageDialog(null,"El apellido del paciente debe ser maximo de 30 caracteres!!!");
+        }
+    }//GEN-LAST:event_jTextFieldApellidosKeyTyped
+
+    private void jTextFieldDireccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldDireccionKeyTyped
+        // TODO add your handling code here:
+        char validar = evt.getKeyChar();
+        if(Character.isDigit(validar))
+        {   evt.consume();
+            getToolkit().beep();
+            JOptionPane.showMessageDialog(null,"Ingresar solo letras!!!");
+        }
+        if(jTextFieldDireccion.getText().length() >= 30)
+        {
+            evt.consume();
+            getToolkit().beep();
+            JOptionPane.showMessageDialog(null,"La direccion del paciente debe ser maximo de 30 caracteres!!!");
+        }
+    }//GEN-LAST:event_jTextFieldDireccionKeyTyped
 
     /**
      * @param args the command line arguments
@@ -490,12 +600,12 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextAreaConsultas;
-    private javax.swing.JTextField jTextFieldApellido;
+    private javax.swing.JTextField jTextFieldApellidos;
     private javax.swing.JTextField jTextFieldDireccion;
     private javax.swing.JTextField jTextFieldId;
     private javax.swing.JTextField jTextFieldIdConsulta;
     private javax.swing.JTextField jTextFieldIdIndicador;
-    private javax.swing.JTextField jTextFieldNombre;
+    private javax.swing.JTextField jTextFieldNombres;
     private javax.swing.JTextPane jTextPaneArea;
     // End of variables declaration//GEN-END:variables
 
