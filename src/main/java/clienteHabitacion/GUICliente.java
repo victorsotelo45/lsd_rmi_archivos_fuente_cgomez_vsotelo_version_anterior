@@ -262,6 +262,12 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
 
         jPanelCardLayout.add(jPanelRegistrar, "cardRegistrar");
 
+        jTextFieldIdConsulta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldIdConsultaKeyTyped(evt);
+            }
+        });
+
         jLabelIdConsulta.setText("Numero de identificacion");
 
         jTextAreaConsultas.setColumns(20);
@@ -306,6 +312,12 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
         );
 
         jPanelCardLayout.add(jPanelConsultar, "cardConsultar");
+
+        jTextFieldIdIndicador.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldIdIndicadorKeyTyped(evt);
+            }
+        });
 
         jLabelIdIndicador.setText("Numero de identificacion");
 
@@ -426,7 +438,7 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
                     JOptionPane.showMessageDialog(null, "Se registro paciente exitosamente!!!");
                     limpiarPanelRegistrar();
                 }else
-                    JOptionPane.showMessageDialog(null, "Error de registro de paciente o ya se registraron el maximo numero de pacientes!!!");
+                    JOptionPane.showMessageDialog(null, "No se registro el paciente!!!");
 
             } catch (RemoteException ex) {
                 Logger.getLogger(GUICliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -435,24 +447,29 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
     }//GEN-LAST:event_jButtonRegistrarPacienteActionPerformed
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
-        try {
-            // TODO add your handling code here:
-            ClsAsintomaticoDTO pacienteAsintomatico = objetoRemotoServidorAlertas.consultarAsintomatico(Integer.parseInt(jTextFieldIdConsulta.getText()) );
-            if(pacienteAsintomatico != null)
-            {
-                jTextAreaConsultas.append("Datos del paciente asintomatico\n");
-                jTextAreaConsultas.append("Nombres: "+pacienteAsintomatico.getNombres()+"\n");
-                jTextAreaConsultas.append("Apellidos: "+pacienteAsintomatico.getApellidos()+"\n");
-                jTextAreaConsultas.append("Tipo de Id: "+pacienteAsintomatico.getTipo_id()+"\n");
-                jTextAreaConsultas.append("Id: "+pacienteAsintomatico.getId()+"\n");
-                jTextAreaConsultas.append("Direccion: "+pacienteAsintomatico.getDireccion()+"\n");
-                jTextAreaConsultas.append("Datos del paciente asintomatico consultados exitosamente!!!\n");
-            }else
-            {
-                JOptionPane.showMessageDialog(null,"No se consulto paciente asintomatico (error de consulta o el paciente no existe!!!)");
+        
+        if(jTextFieldIdConsulta.getText().isEmpty())
+        {
+            JOptionPane.showMessageDialog(null, "Dato requerido no debe estar vacio!!!");
+        }else
+        {    
+            try {
+                // TODO add your handling code here:
+                ClsAsintomaticoDTO pacienteAsintomatico = objetoRemotoServidorAlertas.consultarAsintomatico(Integer.parseInt(jTextFieldIdConsulta.getText()) );
+                if(pacienteAsintomatico != null)
+                {
+                    jTextAreaConsultas.append("Datos del paciente asintomatico\n");
+                    jTextAreaConsultas.append("Nombres: "+pacienteAsintomatico.getNombres()+"\n");
+                    jTextAreaConsultas.append("Apellidos: "+pacienteAsintomatico.getApellidos()+"\n");
+                    jTextAreaConsultas.append("Tipo de Id: "+pacienteAsintomatico.getTipo_id()+"\n");
+                    jTextAreaConsultas.append("Id: "+pacienteAsintomatico.getId()+"\n");
+                    jTextAreaConsultas.append("Direccion: "+pacienteAsintomatico.getDireccion()+"\n");
+                    jTextAreaConsultas.append("Datos del paciente asintomatico consultados exitosamente!!!\n");
+                }
+                
+            } catch (RemoteException ex) {
+                Logger.getLogger(GUICliente.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (RemoteException ex) {
-            Logger.getLogger(GUICliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
@@ -476,16 +493,15 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
             getToolkit().beep();
             JOptionPane.showMessageDialog(null,"Ingrese solo numeros!!!");
         }
-        longitudCadena = jTextFieldId.getText().length();
         
+        longitudCadena = jTextFieldId.getText().length();
         if(longitudCadena >= 5)
         {
             evt.consume();
             getToolkit().beep();
             JOptionPane.showMessageDialog(null,"El id del paciente debe estar entre 0 y 99999!!!");
         }
-        
-        
+    
     }//GEN-LAST:event_jTextFieldIdKeyTyped
 
     private void jTextFieldNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNombresKeyTyped
@@ -496,6 +512,7 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
             getToolkit().beep();
             JOptionPane.showMessageDialog(null,"Ingrese solo letras!!!");
         }
+        
         if(jTextFieldNombres.getText().length() >= 30)
         {
             evt.consume();
@@ -513,6 +530,7 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
             getToolkit().beep();
             JOptionPane.showMessageDialog(null,"Ingrese solo letras!!!");
         }
+        
         if(jTextFieldApellidos.getText().length() >= 30)
         {
             evt.consume();
@@ -527,8 +545,9 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
         if(Character.isDigit(validar))
         {   evt.consume();
             getToolkit().beep();
-            JOptionPane.showMessageDialog(null,"Ingresar solo letras!!!");
+            JOptionPane.showMessageDialog(null,"Ingrese solo letras!!!");
         }
+        
         if(jTextFieldDireccion.getText().length() >= 30)
         {
             evt.consume();
@@ -536,6 +555,44 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
             JOptionPane.showMessageDialog(null,"La direccion del paciente debe ser maximo de 30 caracteres!!!");
         }
     }//GEN-LAST:event_jTextFieldDireccionKeyTyped
+
+    private void jTextFieldIdConsultaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldIdConsultaKeyTyped
+        // TODO add your handling code here:
+        int longitudCadena = 0;
+        char validar = evt.getKeyChar();
+        if(Character.isLetter(validar))
+        {   evt.consume();
+            getToolkit().beep();
+            JOptionPane.showMessageDialog(null,"Ingrese solo numeros!!!");
+        }
+        
+        longitudCadena = jTextFieldIdConsulta.getText().length();
+        if(longitudCadena >= 5)
+        {
+            evt.consume();
+            getToolkit().beep();
+            JOptionPane.showMessageDialog(null,"El id del paciente debe estar entre 0 y 99999!!!");
+        }
+    }//GEN-LAST:event_jTextFieldIdConsultaKeyTyped
+
+    private void jTextFieldIdIndicadorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldIdIndicadorKeyTyped
+        // TODO add your handling code here:
+        int longitudCadena = 0;
+        char validar = evt.getKeyChar();
+        if(Character.isLetter(validar))
+        {   evt.consume();
+            getToolkit().beep();
+            JOptionPane.showMessageDialog(null,"Ingrese solo numeros!!!");
+        }
+        
+        longitudCadena = jTextFieldIdIndicador.getText().length();
+        if(longitudCadena >= 5)
+        {
+            evt.consume();
+            getToolkit().beep();
+            JOptionPane.showMessageDialog(null,"El id del paciente debe estar entre 0 y 99999!!!");
+        }
+    }//GEN-LAST:event_jTextFieldIdIndicadorKeyTyped
 
     /**
      * @param args the command line arguments
@@ -567,7 +624,8 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
             }
         });
         
-        File archivo = new File("historialDeAlertas.txt");
+        String directorioArchivo = "src/main/java/servidorAlertas/";
+        File archivo = new File(directorioArchivo+"historialDeAlertas.txt");
         if(archivo.delete())
             System.out.println("El archivo historialDeAlertas.txt ha sido borrado satisfactoriamente!!!");
         else System.out.println("El archivo historialDeAlertas.txt no se ha podido borrar o no existe!!!");
@@ -611,33 +669,45 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
 
     @Override
     public void run() {
-        try {
+        
+        if(jTextFieldIdIndicador.getText().isEmpty())
+        {
+            JOptionPane.showMessageDialog(null, "Dato requerido no debe estar vacio!!!");
+        }
+        else
+        {    try 
+             {
+                ClsAsintomaticoDTO pacienteAsintomatico = objetoRemotoServidorAlertas.consultarAsintomatico(Integer.parseInt(jTextFieldIdIndicador.getText()) );
+                if(pacienteAsintomatico != null)    
+                {
+                    while (true) {
+                        //hacemos un ciclo infinito
+                        try {
+                            float ToC = (float) (Math.random() * 7 + 35);
+                            int fCardiaca = (int) (Math.random() * 31 + 55);
+                            int fRespiratoria = (int) (Math.random() * 31 + 65);
+                            appendToPane(jTextPaneArea, "\nEnviando indicadores...\n", Color.blue);
+                            appendToPane(jTextPaneArea, "Frecuencia cardiaca: " + fCardiaca+"\n", Color.black);
+                            appendToPane(jTextPaneArea, "Frecuencia respiratoria: " + fRespiratoria+"\n", Color.black);
+                            appendToPane(jTextPaneArea, "Temperatura " + ToC + " C.\n", Color.black);
+                            objetoRemotoServidorAlertas.enviarIndicadores(Integer.parseInt(jTextFieldIdIndicador.getText()), fCardiaca, fRespiratoria, ToC);
 
-            while (true) {
-                //hacemos un ciclo infinito
-                try {
-                    float ToC = (float) (Math.random() * 7 + 35);
-                    int fCardiaca = (int) (Math.random() * 31 + 55);
-                    int fRespiratoria = (int) (Math.random() * 31 + 65);
-                    appendToPane(jTextPaneArea, "\nEnviando indicadores...\n", Color.blue);
-                    appendToPane(jTextPaneArea, "Frecuencia cardiaca: " + fCardiaca+"\n", Color.black);
-                    appendToPane(jTextPaneArea, "Frecuencia respiratoria: " + fRespiratoria+"\n", Color.black);
-                    appendToPane(jTextPaneArea, "Temperatura " + ToC + " C.\n", Color.black);
-                    objetoRemotoServidorAlertas.enviarIndicadores(Integer.parseInt(jTextFieldIdIndicador.getText()), fCardiaca, fRespiratoria, ToC);
 
-                    
-                    Thread.sleep(8000);
+                            Thread.sleep(8000);
 
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
-            }
 
-        } catch (RemoteException e) {
-            System.out.println("La operacion no se pudo completar, intente nuevamente...");
-            System.out.println("Excepcion generada: " + e.getMessage());
+            } catch (RemoteException e) {
+                System.out.println("La operacion no se pudo completar, intente nuevamente...");
+                System.out.println("Excepcion generada: " + e.getMessage());
+            }
         }
     }
+    
     private void appendToPane(JTextPane tp, String msg, Color c)
     {
         StyleContext sc = StyleContext.getDefaultStyleContext();

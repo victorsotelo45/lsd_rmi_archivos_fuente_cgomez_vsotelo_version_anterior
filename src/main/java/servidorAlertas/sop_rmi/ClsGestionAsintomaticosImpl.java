@@ -2,7 +2,6 @@
 package servidorAlertas.sop_rmi;
 
 import clienteHabitacion.sop_rmi.AsintomaticoCllbckInt;
-import clienteHabitacion.sop_rmi.ClsAsintomaticoCllbckImpl;
 import servidorAlertas.utilidades.UtilidadesRegistroC;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
@@ -11,6 +10,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import servidorAlertas.dao.ClsAsintomaticoDAOImpl;
 import servidorAlertas.dao.AsintomaticoDAOInt;
 import servidorAlertas.dto.ClsAsintomaticoDTO;
@@ -43,14 +43,21 @@ public class ClsGestionAsintomaticosImpl extends UnicastRemoteObject implements 
     public boolean registrarAsintomatico(AsintomaticoCllbckInt objAsintomaticoCllbck) throws RemoteException {
             
         System.out.println("Desde registrarAsintomatico()...");
+        int id = objAsintomaticoCllbck.getPacienteAsintomatico().getId();
         boolean  bandera = false;
-                
-        if(this.asintomaticos.size() < this.numeroPacientes)
-        {
-              bandera = this.asintomaticos.add(objAsintomaticoCllbck);
+        if(existeAsintomatico(id) == null)       
+        {   if(this.asintomaticos.size() < this.numeroPacientes)
+            {
+                  bandera = this.asintomaticos.add(objAsintomaticoCllbck);
 
+            }else
+            {
+                JOptionPane.showMessageDialog(null, "Ya se registraron el maximo numero de pacientes: "+this.numeroPacientes+" !!!");
+            }
+        }else
+        {
+            JOptionPane.showMessageDialog(null, "El paciente con id "+id+" ya se encuentra registrado!!!");
         }
-        
         System.out.println("Saliendo de registrarAsintomatico()...");
         return bandera;
            
@@ -66,6 +73,9 @@ public class ClsGestionAsintomaticosImpl extends UnicastRemoteObject implements 
             {   
                 pacienteAsintomatico = objAsintomaticoCllbck.getPacienteAsintomatico();
                 
+            }else
+            {
+               JOptionPane.showMessageDialog(null, "El paciente con id "+id+" no existe!!!"); 
             }
             System.out.println("Saliendo de consultarAsintomatico()...");
                 
