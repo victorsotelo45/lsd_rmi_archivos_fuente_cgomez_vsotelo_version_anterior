@@ -345,6 +345,7 @@
           <SubComponents>
             <Component class="javax.swing.JTextField" name="jTextFieldIdConsulta">
               <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldIdConsultaActionPerformed"/>
                 <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldIdConsultaKeyTyped"/>
               </Events>
             </Component>
@@ -426,6 +427,7 @@
           <SubComponents>
             <Component class="javax.swing.JTextField" name="jTextFieldIdIndicador">
               <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldIdIndicadorActionPerformed"/>
                 <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldIdIndicadorKeyTyped"/>
               </Events>
             </Component>

@@ -6,6 +6,7 @@ import clienteHabitacion.utilidades.UtilidadesConsola;
 import clienteHabitacion.utilidades.UtilidadesRegistroC;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import static java.lang.System.exit;
 import java.net.MalformedURLException;
@@ -262,6 +263,11 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
 
         jPanelCardLayout.add(jPanelRegistrar, "cardRegistrar");
 
+        jTextFieldIdConsulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldIdConsultaActionPerformed(evt);
+            }
+        });
         jTextFieldIdConsulta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldIdConsultaKeyTyped(evt);
@@ -313,6 +319,11 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
 
         jPanelCardLayout.add(jPanelConsultar, "cardConsultar");
 
+        jTextFieldIdIndicador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldIdIndicadorActionPerformed(evt);
+            }
+        });
         jTextFieldIdIndicador.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldIdIndicadorKeyTyped(evt);
@@ -487,8 +498,8 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
     private void jTextFieldIdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldIdKeyTyped
         // TODO add your handling code here:
         int longitudCadena = 0;
-        char validar = evt.getKeyChar();
-        if(Character.isLetter(validar))
+        char c = evt.getKeyChar();
+        if((c < '0' || c > '9') && (c!= KeyEvent.VK_BACK_SPACE))
         {   evt.consume();
             getToolkit().beep();
             JOptionPane.showMessageDialog(null,"Ingrese solo numeros!!!");
@@ -506,8 +517,8 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
 
     private void jTextFieldNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNombresKeyTyped
         // TODO add your handling code here:
-        char validar = evt.getKeyChar();
-        if(Character.isDigit(validar))
+        char c = evt.getKeyChar();
+        if((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && (c != KeyEvent.VK_BACK_SPACE) && (c != ' ') && (c !='ñ')&& (c !='Ñ'))
         {   evt.consume();
             getToolkit().beep();
             JOptionPane.showMessageDialog(null,"Ingrese solo letras!!!");
@@ -524,8 +535,8 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
 
     private void jTextFieldApellidosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldApellidosKeyTyped
         // TODO add your handling code here:
-        char validar = evt.getKeyChar();
-        if(Character.isDigit(validar))
+        char c = evt.getKeyChar();
+        if((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && (c != KeyEvent.VK_BACK_SPACE) && (c != ' ') && (c !='ñ')&& (c !='Ñ'))
         {   evt.consume();
             getToolkit().beep();
             JOptionPane.showMessageDialog(null,"Ingrese solo letras!!!");
@@ -541,8 +552,8 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
 
     private void jTextFieldDireccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldDireccionKeyTyped
         // TODO add your handling code here:
-        char validar = evt.getKeyChar();
-        if(Character.isDigit(validar))
+        char c = evt.getKeyChar();
+        if((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && (c != KeyEvent.VK_BACK_SPACE) && (c != ' ') && (c !='ñ')&& (c !='Ñ'))
         {   evt.consume();
             getToolkit().beep();
             JOptionPane.showMessageDialog(null,"Ingrese solo letras!!!");
@@ -559,8 +570,8 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
     private void jTextFieldIdConsultaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldIdConsultaKeyTyped
         // TODO add your handling code here:
         int longitudCadena = 0;
-        char validar = evt.getKeyChar();
-        if(Character.isLetter(validar))
+        char c = evt.getKeyChar();
+        if((c < '0' || c > '9') && (c!= KeyEvent.VK_BACK_SPACE))
         {   evt.consume();
             getToolkit().beep();
             JOptionPane.showMessageDialog(null,"Ingrese solo numeros!!!");
@@ -578,8 +589,8 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
     private void jTextFieldIdIndicadorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldIdIndicadorKeyTyped
         // TODO add your handling code here:
         int longitudCadena = 0;
-        char validar = evt.getKeyChar();
-        if(Character.isLetter(validar))
+        char c = evt.getKeyChar();
+        if((c < '0' || c > '9') && (c!= KeyEvent.VK_BACK_SPACE))
         {   evt.consume();
             getToolkit().beep();
             JOptionPane.showMessageDialog(null,"Ingrese solo numeros!!!");
@@ -593,6 +604,14 @@ public class GUICliente extends javax.swing.JFrame implements Runnable{
             JOptionPane.showMessageDialog(null,"El id del paciente debe estar entre 0 y 99999!!!");
         }
     }//GEN-LAST:event_jTextFieldIdIndicadorKeyTyped
+
+    private void jTextFieldIdConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldIdConsultaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldIdConsultaActionPerformed
+
+    private void jTextFieldIdIndicadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldIdIndicadorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldIdIndicadorActionPerformed
 
     /**
      * @param args the command line arguments
